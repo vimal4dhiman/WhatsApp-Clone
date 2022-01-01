@@ -1,15 +1,15 @@
-import User from "../model/User.js";
+import User from "../modal/User.js";
 
 export const addUser = async (request, response) => {
   try {
-    const exist = await User.findOne({ googleId: request.body.googleId });
+    let exist = await User.findOne({ googleId: request.body.googleId });
     if (exist) {
       response.status(200).json(`User already exists`);
       return;
     }
     const newUser = new User(request.body);
     await newUser.save();
-    response.status(200).json("User saved successfully");
+    response.status(200).json(newUser);
   } catch (error) {
     response.status(500).json(error);
   }
